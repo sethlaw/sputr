@@ -11,7 +11,7 @@ import string
 
 chars_dir = os.getcwd() + "/exploit_chars"
 payloads_dir = os.getcwd() + "/payloads"
-DEBUG = 1
+DEBUG = True
 s = string.ascii_lowercase + string.digits
 #s=string.lowercase+string.digits
 
