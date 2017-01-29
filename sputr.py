@@ -9,7 +9,7 @@ def main():
 	usage()
 
 def usage():
-	print "Usage instructions <here>"
+	print("Usage instructions <here>")
 
 
 if __name__ == "__main__":
