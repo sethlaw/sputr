@@ -35,12 +35,19 @@ def parse_config():
 		d = json.loads(config.read())
 	return d
 
-
-
 def generate_test_suite(config):
-	#Generate the Test Suite based off of the Config File
-	print("Generating Security Unit Tests")
+	for endpoint in config["endpoints"]:
+		test = list(endpoint["tests"])
+		if test[0] == '1':
+			generate_sqli_test()
+		if test[1] == '1':
+			generate_xss_test()
+		if test[2] == '1':
+			generate_idor_test()
+		if test[3] == '1':
+			generate_csrf_test()
 
+		
 
 def generate_xss_test():
 	print("Generating XSS Test")
@@ -53,11 +60,6 @@ def generate_idor_test():
 
 def generate_csrf_test():
 	print("Generating CSRF Test")
-
-
-
-
-
 
 
 if __name__ == "__main__":
