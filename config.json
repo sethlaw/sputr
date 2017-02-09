@@ -1,0 +1,18 @@
+{
+
+	"token":"YWRtaW46cGFzc3dvcmQ=",
+
+	"1":{
+		"path":"/api/v1/dash",
+		"method":"GET",
+		"auth":0,
+		"tests":"0110"
+		},
+	"2":{
+		"path":"/api/v1/login",
+		"method":"POST",
+		"auth":1,
+		"tests":"0101"
+		}
+
+}
