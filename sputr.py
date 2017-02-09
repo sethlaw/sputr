@@ -6,15 +6,13 @@
 #####################################
 import json
 import sys
-from testgen.sqli_test import SQLi_test
+from testgen.csrf_test import CSRF_test
 
 sys.dont_write_bytecode = True
 
 def main():
-	d = parse_config()
-	generate_test_suite(d)
-
-
+	config = parse_config()
+	generate_test_suite(config)
 
 def usage():
 	print("Usage instructions <here>")
@@ -27,7 +25,7 @@ def generate_config():
 	config_json = json.dumps(config)
 	with open('config.json','w') as f:
 		json.dump(config_json,f)
-	print("Generated Config")
+
 
 
 def parse_config():
@@ -49,17 +47,21 @@ def generate_test_suite(config):
 
 		
 
-def generate_xss_test():
-	print("Generating XSS Test")
+
 
 def generate_sqli_test():
+	sqli_test = SQLi_test()
 	print("Generating SQLi Test")
+
+def generate_xss_test():
+	print("Generating XSS Test")
 
 def generate_idor_test():
 	print("Generating IDOR Test")
 
 def generate_csrf_test():
-	print("Generating CSRF Test")
+	csrf_test = CSRF_test()
+	csrf_test.test()
 
 
 if __name__ == "__main__":

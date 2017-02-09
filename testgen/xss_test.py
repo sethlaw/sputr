@@ -1,5 +1,5 @@
 from .basetest import Test
 
 class XSS_test(Test):
-	def test():
+	def test(self):
 		print("Test")
