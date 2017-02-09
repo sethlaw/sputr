@@ -5,10 +5,14 @@
 # author: seth
 #####################################
 import json
+import sys
 from testgen.sqli_test import SQLi_test
 
+sys.dont_write_bytecode = True
+
 def main():
-	parse_config()
+	d = parse_config()
+	generate_test_suite(d)
 
 
 
@@ -29,8 +33,8 @@ def generate_config():
 def parse_config():
 	with open('config.json','r') as config:
 		d = json.loads(config.read())
-	print(d)
-	generate_test_suite(d)
+	return d
+
 
 
 def generate_test_suite(config):
