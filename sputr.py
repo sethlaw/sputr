@@ -5,6 +5,7 @@
 # author: seth
 #####################################
 import json
+from testgen.sqli_test import SQLi_test
 
 def main():
 	parse_config()
@@ -35,6 +36,20 @@ def parse_config():
 def generate_test_suite(config):
 	#Generate the Test Suite based off of the Config File
 	print("Generating Security Unit Tests")
+
+
+def generate_xss_test():
+	print("Generating XSS Test")
+
+def generate_sqli_test():
+	print("Generating SQLi Test")
+
+def generate_idor_test():
+	print("Generating IDOR Test")
+
+def generate_csrf_test():
+	print("Generating CSRF Test")
+
 
 
 
