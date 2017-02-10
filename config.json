@@ -1,19 +1,36 @@
 {
 
-	"token":"YWRtaW46cGFzc3dvcmQ=",
-
+	"token":{
+			"name":"",
+			"value":""
+			},
+	"domain":{
+			"host":"localhost:1234",
+			"protocol":"https://"
+			},
 	"endpoints":[{
 				"path":"/api/v1/dash",
 				"method":"GET",
 				"auth":0,
-				"tests":"0110"
+				"params":"",
+				"tests":"0000"
 				},
 
 				{
 				"path":"/api/v1/login",
 				"method":"POST",
 				"auth":1,
-				"tests":"0101"
+				"params":"",
+				"tests":"0000"
+				},
+				{
+				"path":"",
+				"method":"POST",
+				"params":{
+					
+				},
+				"auth":1,
+				"tests":"0001"
 				}]
 
 }
