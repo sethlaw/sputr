@@ -6,6 +6,7 @@
 #####################################
 import json
 import sys
+import argparse
 from services.Token import TokenGenerationService 
 from services.PoC import POCGenerationService 
 from testgen.csrf_test import CSRF_test
@@ -13,6 +14,13 @@ from testgen.csrf_test import CSRF_test
 sys.dont_write_bytecode = True
 
 def main():
+	parser = argparse.ArgumentParser(description='sputr.py')
+	parser.add_argument('--config',dest='config',default='config.json',help='config file (default: config.json)')
+	parser.add_argument('--test',action='store_true', help='start tests')
+	
+	args = parser.parse_args()
+	
+	
 	payloads =	{
 		"username":"admin",
 		"password":"password",
@@ -21,9 +29,6 @@ def main():
 	url = "http://localhost:1234/api/login"
 	poc = POCGenerationService(payloads)
 	poc.writeToFile(poc.csrf_poc(url))
-	
-def usage():
-	print("Usage instructions <here>")
 
 def generate_config():
 	#TEST
