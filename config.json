@@ -28,7 +28,10 @@
 				"path":"/api/v1/dash",
 				"method":"GET",
 				"auth":0,
-				"params":"",
+				"params":{
+					"name1":"value1",
+					"name2":"value2",
+				},
 				"tests":"0000"
 				},
 

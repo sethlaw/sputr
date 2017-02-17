@@ -1,7 +1,7 @@
 import requests
 import re
 from bs4 import BeautifulSoup
-import json
+
 
 class TokenGenerationService():
 
@@ -11,7 +11,6 @@ class TokenGenerationService():
 		self.csrf = config["csrf"]
 		
 
-	
 	def login(self):
 		return requests.post(self.csrf["auth_url"],data=self.creds, cookies=self.cookies)
 

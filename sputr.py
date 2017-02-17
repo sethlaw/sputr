@@ -7,18 +7,21 @@
 import json
 import sys
 from services.Token import TokenGenerationService 
+from services.PoC import POCGenerationService 
 from testgen.csrf_test import CSRF_test
 
 sys.dont_write_bytecode = True
 
 def main():
-	config = parse_config()
-	token_service = TokenGenerationService(config)
-	token_service.getCSRFToken()
+	payloads =	{
+		"username":"admin",
+		"password":"password",
+		"email":"example@email.com"
+		}
+	url = "http://localhost:1234/api/login"
+	poc = POCGenerationService(payloads)
+	poc.writeToFile(poc.csrf_poc(url))
 	
-	
-
-
 def usage():
 	print("Usage instructions <here>")
 

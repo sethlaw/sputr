@@ -5,10 +5,9 @@ class Test():
 	def __init__(self):
 		print("init")
 
-	def __init__(self,url,config,token):
+	def __init__(self,config):
 		self.config = config
-		self.url = url
-		self.cookies = {token["name"] : token["value"]}
+		
 
 	
 	def get_payloads(self):
