@@ -1,9 +1,25 @@
 {
 
 	"token":{
-			"name":"",
+			"name":"session_cookie",
 			"value":""
 			},
+	"creds":{
+			"username":{
+				"name":"LoginForm-email",
+				"value":"asdasda%40example.com"
+			},
+			"password":{
+				"name":"LoginForm-password",
+				"password":""
+			}
+	},
+	"csrf":{
+		"pattern":"\\w{10}#{2}\\w{40}",
+		"name":"LoginForm-csrf_token",
+		"login_url":"http://localhost:1234/login",
+		"auth_url":"http://localhost:1234/apilogin"
+	},
 	"domain":{
 			"host":"localhost:1234",
 			"protocol":"https://"

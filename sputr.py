@@ -6,13 +6,18 @@
 #####################################
 import json
 import sys
+from services.Token import TokenGenerationService 
 from testgen.csrf_test import CSRF_test
 
 sys.dont_write_bytecode = True
 
 def main():
 	config = parse_config()
-	generate_test_suite(config)
+	token_service = TokenGenerationService(config)
+	token_service.getCSRFToken()
+	
+	
+
 
 def usage():
 	print("Usage instructions <here>")
@@ -34,7 +39,6 @@ def parse_config():
 	return d
 
 def generate_test_suite(config):
-
 	for endpoint in config["endpoints"]:
 		test = list(endpoint["tests"])
 		url = config["domain"]["protocol"]+config["domain"]["host"]+endpoint["path"]
@@ -48,10 +52,7 @@ def generate_test_suite(config):
 		if test[3] == '1':
 			generate_csrf_test(url,endpoint,token)
 
-		
-
-
-
+	
 def generate_sqli_test(config):
 	sqli_test = SQLi_test(config)
 	print("Generating SQLi Test")
