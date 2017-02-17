@@ -27,5 +27,5 @@ class POCGenerationService():
   	def writeToFile(self,poc):
   		target_poc = open("CSRF_PoC.html", 'w')
   		target_poc.write(poc)
-  		target.close()
+  		target_poc.close()
 
