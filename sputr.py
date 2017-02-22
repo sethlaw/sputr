@@ -7,9 +7,12 @@
 import json
 import sys
 import argparse
+import pprint
 from services.Token import TokenGenerationService 
 from services.PoC import POCGenerationService 
 from testgen.csrf_test import CSRF_test
+from testgen.xss_test import xss_test
+from generators.Payloads import Payloads
 
 sys.dont_write_bytecode = True
 
@@ -22,6 +25,7 @@ def main():
 	
 	args = parser.parse_args()
 	
+	pp = pprint.PrettyPrinter(indent=4)
 	
 	if args.testcsrf: 
 		payloads =	{
@@ -34,6 +38,16 @@ def main():
 		poc.writeToFile(poc.csrf_poc(url))
 	elif args.test:
 		c = parse_config(args.config)
+		creds = c['creds']
+		domain = c['domain']
+		#pp.pprint(c)
+		for ep in c['endpoints']:
+			tests = list(ep['tests'])
+			if tests[1] == '1':
+				xss_payloads = Payloads.generate_payloads('xss')
+				xss = xss_test(ep,domain,creds,xss_payloads)
+				xss.test()
+				
 	else:
 		parser.print_help()
 	return 0
