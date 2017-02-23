@@ -8,6 +8,7 @@ class xss_test(Test):
 		failed = 0
 		messages = []
 		url = self.domain['protocol'] + self.domain['host'] + self.config['path']
+		print("XSS Test for " + url)
 		for p in self.payloads:
 			for k,v in self.config['params'].items():
 				if self.DEBUG: print(url + "?" + k + "=" + v + " (" + p + ")")
@@ -20,7 +21,7 @@ class xss_test(Test):
 					#if self.DEBUG: print("Content " + str(res.text))
 					if p in res.text:
 						failed = failed + 1
-						print('Payload ' + p + ' not filtered')
+						print('=> Payload ' + p + ' not filtered for parameter ' + k)
 					else:
 						passed = passed + 1
 				elif self.config['method'] == 'POST':
@@ -38,6 +39,5 @@ class xss_test(Test):
 				else:
 					if self.DEBUG: print("Endpoint method is not GET or POST")
 		
-		print("XSS Test for " + self.config['path'])
 		print("=> " + str(passed) + "/" + str(passed+failed) + " passed/total")
 		#print("Messages: " + str(messages))
