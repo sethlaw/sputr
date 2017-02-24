@@ -17,6 +17,8 @@ class xss_test(Test):
 					data = copy.deepcopy(self.config['params'])
 					data[k] = data[k] + p
 					res = self.client.get(url,params=data)
+					if 'testpath' in self.config:
+						res = self.client.get(self.domain['protocol'] + self.domain['host'] + self.config['testpath'])
 					if self.DEBUG: print("Status " + str(res.status_code))
 					#if self.DEBUG: print("Content " + str(res.text))
 					if p in res.text:
@@ -25,15 +27,18 @@ class xss_test(Test):
 					else:
 						passed = passed + 1
 				elif self.config['method'] == 'POST':
-					if self.DEBUG: print("Using POST " + self.config['path'])
 					data = copy.deepcopy(self.config['params'])
 					data[k] = data[k] + p
-					res = self.client.post(url,params=data)
+					if self.DEBUG: print("Using POST " + self.config['path'] + " data: " + str(data))
+					res1 = self.client.get(url) # Get in case we need CSRF tokens and/or other items from the form
+					res = self.client.post(url,data=data)
+					if 'testpath' in self.config:
+						res = self.client.get(self.domain['protocol'] + self.domain['host'] + self.config['testpath'])
 					if self.DEBUG: print("Status " + str(res.status_code))
 					#if self.DEBUG: print("Content " + str(res.text))
 					if p in res.text:
 						failed = failed + 1
-						print('Payload ' + p + ' not filtered')
+						print('=> Payload ' + p + ' not filtered for parameter ' + k)
 					else:
 						passed = passed + 1
 				else:

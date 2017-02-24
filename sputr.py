@@ -45,7 +45,7 @@ def main():
 			tests = list(ep['tests'])
 			if tests[1] == '1':
 				xss_payloads = Payloads.generate_payloads('xss')
-				xss = xss_test(ep,domain,creds,xss_payloads)
+				xss = xss_test(ep,domain,creds,xss_payloads,DEBUG=False)
 				xss.test()
 				
 	else:
