@@ -95,6 +95,18 @@ def generate_config(appdir,apptype,output):
 	ep['params'] = {}
 	ep['tests'] = "11111"
 	config['endpoints'].append(ep)
+	if apptype == 'django':
+		print('adding django endpoints')
+		#TODO django parsing
+	elif apptype == 'java':
+		print('adding java spring endpoints')
+		#TODO java spring parsing
+	elif apptype == 'dotnet':
+		print('adding dotnet mvc endpoints')
+		#TODO dotnet mvc parsing
+	elif apptype == 'flask':
+		print('adding flask endpoints')
+		#TODO flask parsing
 	with open(output,'w') as f:
 		json.dump(config,f,indent=4)
 
