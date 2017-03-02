@@ -8,11 +8,11 @@ import json
 import sys
 import argparse
 import pprint
-from services.Token import TokenGenerationService 
-from services.PoC import POCGenerationService 
-from testgen.csrf_test import CSRF_test
-from testgen.xss_test import xss_test
-from generators.Payloads import Payloads
+from services.token_service import TokenService 
+from services.poc_service import POCService 
+from testgen.csrf_test import CSRFTest
+from testgen.xss_test import XSSTest
+from generators.payload_generator import Payloads
 
 sys.dont_write_bytecode = True
 
@@ -37,13 +37,14 @@ def main():
 			"email":"example@email.com"
 			}
 		url = "http://localhost:1234/api/login"
-		poc = POCGenerationService(payloads)
+		poc = POCService(payloads)
 		poc.writeToFile(poc.csrf_poc(url))
 	elif args.test:
 		c = parse_config(args.config)
-		pp.pprint(c)
+		#pp.pprint(c)
 		creds = c['creds']
 		domain = c['domain']
+		csrf = c['csrf']
 		for ep in c['endpoints']:
 			tests = list(ep['tests'])
 			if tests[0] == '1':
@@ -51,7 +52,7 @@ def main():
 			if tests[1] == '1':
 				print('running xss tests')
 				xss_payloads = Payloads.generate_payloads('xss')
-				xss = xss_test(ep,domain,creds,xss_payloads,DEBUG=False)
+				xss = XSSTest(ep,domain,creds,csrf,xss_payloads,DEBUG=False)
 				xss.test()
 			if tests[2] == '1':
 				print('running IDOR tests')

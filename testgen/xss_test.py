@@ -1,7 +1,7 @@
-from .basetest import Test
+from .requests_test import RequestsTest
 import copy
 
-class xss_test(Test):
+class XSSTest(RequestsTest):
 	def test(self):
 		if self.DEBUG: print("Run the XSS Tests")
 		passed = 0
@@ -16,31 +16,40 @@ class xss_test(Test):
 					if self.DEBUG: print("Using GET " + self.config['path'])
 					data = copy.deepcopy(self.config['params'])
 					data[k] = data[k] + p
-					res = self.client.get(url,params=data)
-					if 'testpath' in self.config:
-						res = self.client.get(self.domain['protocol'] + self.domain['host'] + self.config['testpath'])
-					if self.DEBUG: print("Status " + str(res.status_code))
-					#if self.DEBUG: print("Content " + str(res.text))
-					if p in res.text:
+					res = self.get(url,params=data)
+					if res.status_code != 200:
+						print("Error getting content for " + self.config['path'])
 						failed = failed + 1
-						print('=> Payload ' + p + ' not filtered for parameter ' + k)
-					else:
-						passed = passed + 1
+					else: 
+						if 'testpath' in self.config:
+							res = self.get(self.domain['protocol'] + self.domain['host'] + self.config['testpath'])
+						if self.DEBUG: print("Status " + str(res.status_code))
+						#if self.DEBUG: print("Content " + str(res.text))
+						if p in res.text:
+							failed = failed + 1
+							print('=> Payload ' + p + ' not filtered for parameter ' + k)
+						else:
+							passed = passed + 1
 				elif self.config['method'] == 'POST':
 					data = copy.deepcopy(self.config['params'])
 					data[k] = data[k] + p
 					if self.DEBUG: print("Using POST " + self.config['path'] + " data: " + str(data))
-					res1 = self.client.get(url) # Get in case we need CSRF tokens and/or other items from the form
-					res = self.client.post(url,data=data)
-					if 'testpath' in self.config:
-						res = self.client.get(self.domain['protocol'] + self.domain['host'] + self.config['testpath'])
-					if self.DEBUG: print("Status " + str(res.status_code))
-					#if self.DEBUG: print("Content " + str(res.text))
-					if p in res.text:
+					res1 = self.get(url) # Get in case we need CSRF tokens and/or other items from the form
+					res = self.post(url,data=data)
+					if res.status_code != 200:
+						print("Error getting content for " + self.config['path'])
+						#print(res.text)
 						failed = failed + 1
-						print('=> Payload ' + p + ' not filtered for parameter ' + k)
-					else:
-						passed = passed + 1
+					else: 
+						if 'testpath' in self.config:
+							res = self.get(self.domain['protocol'] + self.domain['host'] + self.config['testpath'])
+						if self.DEBUG: print("Status " + str(res.status_code))
+						#if self.DEBUG: print("Content " + str(res.text))
+						if p in res.text:
+							failed = failed + 1
+							print('=> Payload ' + p + ' not filtered for parameter ' + k)
+						else:
+							passed = passed + 1
 				else:
 					if self.DEBUG: print("Endpoint method is not GET or POST")
 		

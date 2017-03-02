@@ -1,6 +1,6 @@
 from generators.CSRFPayloadGenerator import CSRFPayloadGenerator
 
-class POCGenerationService():
+class POCService():
 	
 
 	def __init__(self,payloads):

@@ -1,6 +1,6 @@
-from .basetest import Test
+from .requests_test import RequestsTest
 
-class CSRF_test(Test):
+class CSRFTest(RequestsTest):
 
 	def execute(self):
 		#print(self.url)
