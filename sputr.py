@@ -12,6 +12,7 @@ from services.token_service import TokenService
 from services.poc_service import POCService 
 from testgen.csrf_test import CSRFTest
 from testgen.xss_test import XSSTest
+from testgen.sqli_test import SQLiTest
 from generators.payload_generator import Payloads
 
 sys.dont_write_bytecode = True
@@ -49,6 +50,9 @@ def main():
 			tests = list(ep['tests'])
 			if tests[0] == '1':
 				print('running sqli tests')
+				sqli_payloads = Payloads.generate_payloads('injection/sql')
+				sqli = SQLiTest(ep,domain,creds,csrf,sqli_payloads,DEBUG=False)
+				sqli.test()
 			if tests[1] == '1':
 				print('running xss tests')
 				xss_payloads = Payloads.generate_payloads('xss')

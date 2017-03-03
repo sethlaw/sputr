@@ -18,7 +18,7 @@ class XSSTest(RequestsTest):
 					data[k] = data[k] + p
 					res = self.get(url,params=data)
 					if res.status_code != 200:
-						print("Error getting content for " + self.config['path'])
+						print('=> Payload ' + p + ' caused an unknown error for parameter ' + k)
 						failed = failed + 1
 					else: 
 						if 'testpath' in self.config:
@@ -37,9 +37,11 @@ class XSSTest(RequestsTest):
 					res1 = self.get(url) # Get in case we need CSRF tokens and/or other items from the form
 					res = self.post(url,data=data)
 					if res.status_code != 200:
-						print("Error getting content for " + self.config['path'])
+						print('=> Payload ' + p + ' caused an unknown error for parameter ' + k)
 						#print(res.text)
 						failed = failed + 1
+					elif res.status_code >=300 and res.status_code <= 400:
+						print("Status Code: " + str(res.status_code))
 					else: 
 						if 'testpath' in self.config:
 							res = self.get(self.domain['protocol'] + self.domain['host'] + self.config['testpath'])
