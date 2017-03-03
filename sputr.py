@@ -10,9 +10,9 @@ import argparse
 import pprint
 from services.token_service import TokenService 
 from services.poc_service import POCService 
-from testgen.csrf_test import CSRFTest
-from testgen.xss_test import XSSTest
-from testgen.sqli_test import SQLiTest
+from tests.csrf_test import CSRFTest
+from tests.xss_test import XSSTest
+from tests.sqli_test import SQLiTest
 from generators.payload_generator import Payloads
 
 sys.dont_write_bytecode = True

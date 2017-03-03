@@ -1,0 +1,81 @@
+{
+	"token":{
+			"name":"session_cookie",
+			"value":""
+	},
+	"creds":{
+			"username":{
+				"name":"username",
+				"value":"seth"
+			},
+			"password":{
+				"name":"password",
+				"password":"soccerlover"
+			}
+	},
+	"csrf":{
+		"pattern":"\\w{32}",
+		"name":"csrfmiddlewaretoken",
+		"login_url":"http://localhost:8000/taskManager/login",
+		"auth_url":"http://localhost:8000/taskManager/dashboard"
+	},
+	"domain":{
+			"host":"localhost:8000",
+			"protocol":"http://",
+			"login_url":"http://localhost:8000/taskManager/login",
+			"auth_url":"http://localhost:8000/taskManager/dashboard"
+	},
+	"endpoints":[
+			{ "path":"/taskManager/search/",
+                        "method":"GET",
+			"auth":1,
+			"params":{
+				"q":"item"
+				},
+			"tests":"11000" },
+			{ "path":"/taskManager/login",
+                        "method":"POST",
+			"auth":0,
+			"params":{
+				"username":"u",
+				"password":"p"
+				},
+			"tests":"11000" },
+			{ "path":"/taskManager/2/task_edit/6",
+                        "testpath":"/taskManager/2/6/",
+                        "method":"POST",
+			"auth":1,
+			"params":{
+				"task_title":"Get Up",
+				"text":"rise and shine",
+				"task_completed":"0"
+				},
+			"tests":"11000" },
+			{ "path":"/taskManager/2/6/note_edit/6",
+                        "testpath":"/taskManager/2/6/",
+                        "method":"POST",
+			"auth":1,
+			"params":{
+				"note_title":"better edu",
+				"text":"i mean learn"
+				},
+			"tests":"11000" },
+			{ "path":"/taskManager/profile/2",
+                        "method":"POST",
+			"auth":1,
+			"params":{
+				"first_name":"Seth",
+				"last_name":"Law",
+				"email":"seth@tm.com",
+				"dob":"02/02/82"
+				},
+			"tests":"11000" },
+			{ "path":"/taskManager/forgot_password/",
+                        "method":"POST",
+                        "auth":0,
+                        "params":{
+                                "email":"chris@tm.com"
+                                },
+                        "tests":"11000" }
+	]
+}
