@@ -35,22 +35,22 @@ class RequestsTest(unittest.TestCase):
 		
 	#Send an HTTP GET Request, wrapper around python requests library.
 	#Returns a Response object
-	def get(self,url,params={},cookies={}):
+	def get(self,url,params={},cookies={},allow_redirects=True):
 		if self.DEBUG: print(url + " : " + str(params) + " : " + str(cookies))
-		res = self.client.get(url,params=params,cookies=cookies)
+		res = self.client.get(url,params=params,cookies=cookies,allow_redirects=allow_redirects)
 		tmptoken = self.token_service.getCSRFToken(res.text,self.DEBUG)
 		if tmptoken != "":
 			self.csrftoken = tmptoken
 		return res
 
-	def post(self,url,data={},cookies={}):
+	def post(self,url,data={},cookies={},allow_redirects=True):
 		if self.DEBUG: print(url + " : " + str(data) + " : " + str(cookies))
 		if self.csrftoken != "":
 			data[self.csrf['name']] = self.csrftoken
 			#print("Adding csrf token to post " + self.csrftoken)
 		#else:
 			#print("No csrf token to post " + self.csrftoken)
-		res = self.client.post(url,data=data,cookies=cookies)
+		res = self.client.post(url,data=data,cookies=cookies,allow_redirects=allow_redirects)
 		tmptoken = self.token_service.getCSRFToken(res.text,self.DEBUG)
 		if tmptoken != "":
 			self.csrftoken = tmptoken

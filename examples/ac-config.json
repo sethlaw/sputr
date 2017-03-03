@@ -1,0 +1,35 @@
+{
+	"token":{
+			"name":"session_cookie",
+			"value":""
+	},
+	"creds":{
+			"username":{
+				"name":"username",
+				"value":"seth"
+			},
+			"password":{
+				"name":"password",
+				"password":"soccerlover"
+			}
+	},
+	"csrf":{
+		"pattern":"\\w{32}",
+		"name":"csrfmiddlewaretoken",
+		"login_url":"http://localhost:8000/taskManager/login",
+		"auth_url":"http://localhost:8000/taskManager/dashboard"
+	},
+	"domain":{
+			"host":"localhost:8000",
+			"protocol":"http://",
+			"login_url":"http://localhost:8000/taskManager/login",
+			"auth_url":"http://localhost:8000/taskManager/dashboard"
+	},
+	"endpoints":[
+			{ "path":"/taskManager/dashboard/",
+                        "method":"GET",
+			"auth":1,
+			"params":{ },
+			"tests":"00001" }
+	]
+}

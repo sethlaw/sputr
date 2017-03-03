@@ -13,6 +13,7 @@ from services.poc_service import POCService
 from tests.csrf_test import CSRFTest
 from tests.xss_test import XSSTest
 from tests.sqli_test import SQLiTest
+from tests.access_control_test import AccessControlTest
 from generators.payload_generator import Payloads
 
 sys.dont_write_bytecode = True
@@ -64,6 +65,8 @@ def main():
 				print('running CSRF tests')
 			if tests[4] == '1':
 				print('running access control tests')
+				ac = AccessControlTest(ep,domain,creds,csrf,[],DEBUG=False)
+				ac.test()
 	elif args.generate:
 		print('generating config from ' + args.appdir + ' as a ' + args.apptype + ' application to ' + args.output)
 		generate_config(args.appdir,args.apptype,args.output)
