@@ -35,20 +35,18 @@ def main():
 	
 	if args.testcsrf: 
 		session = requests.Session()
-		creds = {
-			"username":"username",
-			"password":"password"
-			}
-		payloads =	{
-			"username":"admin",
-			"password":"password",
-			"email":"example@email.com"
-			}
-		url = "http://localhost:1234/api/create"
-		poc = POCService(payloads)
-		poc.writeToFile(poc.csrf_poc(url))
+		config = parse_config(args.config)
+
+		creds = config["creds"]
+		payloads =	config["endpoints"][0]["params"] #Refactor this to fit all endpoints
+		url = config["domain"]["protocol"]+config["domain"]["host"]+config["endpoints"][0]["path"]
+		auth_url = config["csrf"]["auth_url"]
+
+		#poc = POCService(payloads)
+		# poc.writeToFile(poc.csrf_poc(url)) 
+	
 		with requests.Session() as s:
-			res1 = s.post("http://localhost:1234/api/login",data=creds) # Authenticate
+			res1 = s.post(auth_url,data=creds) # Authenticate
 			res2 = s.post(url,data=payloads)
 			if res1.status_code == res2.status_code:
 				passed = False
@@ -77,6 +75,7 @@ def main():
 			if tests[3] == '1':
 				#Do CSRF Test
 				print('running CSRF tests')
+				csrf_test = CSRFTest(ep,domain,creds,csrf,DEBUG=false)
 			if tests[4] == '1':
 				print('running access control tests')
 				ac = AccessControlTest(ep,domain,creds,csrf,[],DEBUG=False)

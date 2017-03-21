@@ -18,11 +18,11 @@
 		"pattern":"\\w{10}#{2}\\w{40}",
 		"name":"LoginForm-csrf_token",
 		"login_url":"http://localhost:1234/login",
-		"auth_url":"http://localhost:1234/apilogin"
+		"auth_url":"http://localhost:1234/api/login"
 	},
 	"domain":{
 			"host":"localhost:1234",
-			"protocol":"https://"
+			"protocol":"http://"
 			},
 	"endpoints":[{
 				"path":"/api/v1/dash",
@@ -30,7 +30,7 @@
 				"auth":0,
 				"params":{
 					"name1":"value1",
-					"name2":"value2",
+					"name2":"value2"
 				},
 				"tests":"0000"
 				},
