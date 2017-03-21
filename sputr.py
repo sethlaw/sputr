@@ -7,6 +7,7 @@
 import json
 import sys
 import argparse
+import requests
 import pprint
 from services.token_service import TokenService 
 from services.poc_service import POCService 
@@ -33,14 +34,26 @@ def main():
 	pp = pprint.PrettyPrinter(indent=4)
 	
 	if args.testcsrf: 
+		session = requests.Session()
+		creds = {
+			"username":"username",
+			"password":"password"
+			}
 		payloads =	{
 			"username":"admin",
 			"password":"password",
 			"email":"example@email.com"
 			}
-		url = "http://localhost:1234/api/login"
+		url = "http://localhost:1234/api/create"
 		poc = POCService(payloads)
 		poc.writeToFile(poc.csrf_poc(url))
+		with requests.Session() as s:
+			res1 = s.post("http://localhost:1234/api/login",data=creds) # Authenticate
+			res2 = s.post(url,data=payloads)
+			if res1.status_code == res2.status_code:
+				passed = False
+				print("TEST FAILED")
+		
 	elif args.test:
 		c = parse_config(args.config)
 		#pp.pprint(c)
@@ -62,6 +75,7 @@ def main():
 			if tests[2] == '1':
 				print('running IDOR tests')
 			if tests[3] == '1':
+				#Do CSRF Test
 				print('running CSRF tests')
 			if tests[4] == '1':
 				print('running access control tests')
