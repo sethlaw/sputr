@@ -139,35 +139,7 @@ def parse_config(f):
 		d = json.loads(config.read())
 	return d
 
-def generate_test_suite(config):
-	for endpoint in config["endpoints"]:
-		test = list(endpoint["tests"])
-		url = config["domain"]["protocol"]+config["domain"]["host"]+endpoint["path"]
-		token = config["token"]
-		if test[0] == '1':
-			generate_sqli_test()
-		if test[1] == '1':
-			generate_xss_test()
-		if test[2] == '1':
-			generate_idor_test()
-		if test[3] == '1':
-			generate_csrf_test(url,endpoint,token)
 
-	
-def generate_sqli_test(config):
-	sqli_test = SQLi_test(config)
-	print("Generating SQLi Test")
-
-def generate_xss_test(config):
-	print("Generating XSS Test")
-
-def generate_idor_test(config):
-	print("Generating IDOR Test")
-
-def generate_csrf_test(url,config,token):
-	csrf_test = CSRF_test(url,config,token)
-	csrf_test.execute()
-	
 
 
 if __name__ == "__main__":
