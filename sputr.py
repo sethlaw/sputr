@@ -10,7 +10,8 @@ import argparse
 import requests
 import pprint
 from services.token_service import TokenService 
-from services.poc_service import POCService 
+from services.poc_service import POCService
+from services.report_service import Report
 from tests.csrf_test import CSRFTest
 from tests.xss_test import XSSTest
 from tests.sqli_test import SQLiTest
@@ -26,8 +27,10 @@ def main():
 	parser.add_argument('--generate',action='store_true', help='generate config file for app')
 	parser.add_argument('--apptype',dest='apptype',help='application type for config generation (django|flask|spring|dotnet)')
 	parser.add_argument('--appdir',dest='appdir',help='application directory for config generation')
-	parser.add_argument('--output',dest='output',default='config.json',help='file to output config file to')
+	parser.add_argument('--conf_output',dest='conf_output',default='config.json',help='file to output config file to')
+	parser.add_argument('--output',dest='output',default='results.json',help='file for results output')
 	parser.add_argument('--testcsrf',action='store_true', help='test csrf from initial dev')
+	parser.add_argument('--verbose',dest='DEBUG', help='verbose messages')
 	
 	args = parser.parse_args()
 	
@@ -58,31 +61,35 @@ def main():
 		creds = c['creds']
 		domain = c['domain']
 		csrf = c['csrf']
+		report = Report(domain)
 		for ep in c['endpoints']:
 			tests = list(ep['tests'])
 			if tests[0] == '1':
-				print('running sqli tests')
-				sqli_payloads = Payloads.generate_payloads('injection/sql')
-				sqli = SQLiTest(ep,domain,creds,csrf,sqli_payloads,DEBUG=False)
+				if args.DEBUG: print('running sqli tests')
+				sqli_payloads = Payloads.generate_payloads('injection/sql',DEBUG=args.DEBUG)
+				sqli = SQLiTest(ep,report,domain,creds,csrf,sqli_payloads,DEBUG=args.DEBUG)
 				sqli.test()
 			if tests[1] == '1':
-				print('running xss tests')
-				xss_payloads = Payloads.generate_payloads('xss')
-				xss = XSSTest(ep,domain,creds,csrf,xss_payloads,DEBUG=False)
+				if args.DEBUG: print('running xss tests')
+				xss_payloads = Payloads.generate_payloads('xss',DEBUG=args.DEBUG)
+				xss = XSSTest(ep,report,domain,creds,csrf,xss_payloads,DEBUG=args.DEBUG)
 				xss.test()
 			if tests[2] == '1':
-				print('running IDOR tests')
+				if args.DEBUG: print('running idor tests')
 			if tests[3] == '1':
 				#Do CSRF Test
-				print('running CSRF tests')
-				csrf_test = CSRFTest(ep,domain,creds,csrf,DEBUG=false)
+				if args.DEBUG: print('running csrf tests')
+				csrf_test = CSRFTest(ep,report,domain,creds,csrf,[],DEBUG=args.DEBUG)
 			if tests[4] == '1':
-				print('running access control tests')
-				ac = AccessControlTest(ep,domain,creds,csrf,[],DEBUG=False)
+				if args.DEBUG: print('running access control tests')
+				ac = AccessControlTest(ep,report,domain,creds,csrf,[],DEBUG=args.DEBUG)
 				ac.test()
+		
+		with open(args.output,'w') as f:
+			json.dump(report.report,f,indent=4)
 	elif args.generate:
 		print('generating config from ' + args.appdir + ' as a ' + args.apptype + ' application to ' + args.output)
-		generate_config(args.appdir,args.apptype,args.output)
+		generate_config(args.appdir,args.apptype,args.conf_output)
 	else:
 		parser.print_help()
 	return 0

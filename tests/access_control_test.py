@@ -1,3 +1,4 @@
+import sys
 import requests
 from .requests_test import RequestsTest
 
@@ -8,6 +9,8 @@ class AccessControlTest(RequestsTest):
 		url = self.domain['protocol'] + self.domain['host'] + self.config['path']
 		print("Access Control Test for " + url)
 		
+		result_text = []
+		result = 'PASS'
 		if self.config['auth'] == 1:
 			if self.config['method'] == 'GET':
 				if self.DEBUG: print("*** Using GET " + self.config['path'])
@@ -29,9 +32,12 @@ class AccessControlTest(RequestsTest):
 				if self.DEBUG: print("*** Endpoint method is not GET or POST")
 			
 			if not passed:
-				print("=> No auth required for access")
-				print("=> 0/1 passed/total")
-			else:
-				print("=> 1/1 passed/total")
+				sys.stderr.write("=> No auth to " + url + " required for access\n")
+				result = 'FAIL'
+				result_text.append("=> No access control required for access")
+
 		else:
-			print("=> no auth required, bypassing access control test")
+			result = 'ERROR'
+			result_text.append("=> no authentication required for access, bypassing access control test")
+		
+		self.report.add_test_result(url,self.config['method'],'sqli','none',result,result_text)

@@ -10,9 +10,10 @@ class SQLiTest(RequestsTest):
 		url = self.domain['protocol'] + self.domain['host'] + self.config['path']
 		db_pattern = re.compile('database')
 		print("SQL Injection Test for " + url)
-		
-		for p in self.payloads:
-			for k,v in self.config['params'].items():
+		result_text = []
+		result = 'PASS'
+		for k,v in self.config['params'].items():
+			for p in self.payloads:
 				if self.DEBUG: print(url + "?" + k + "=" + v + " (" + p + ")")
 				if self.config['method'] == 'GET':
 					if self.DEBUG: print("Using GET " + self.config['path'])
@@ -26,9 +27,12 @@ class SQLiTest(RequestsTest):
 					if res.status_code != 200:
 						failed = failed + 1
 						if db_pattern.search(res.text,re.IGNORECASE):
-							print('=> Payload ' + p + ' caused a database error in paramater ' + k)
+							result='FAIL'
+							result_text.append('=> Payload ' + p + ' caused a database error in paramater ' + k)
+							sys.stderr.write('=> Payload ' + p + ' caused a database error in paramater ' + k + '\n')
 						else:
-							print('=> Payload ' + p + ' caused an unknown error in parameter ' + k)
+							result='ERROR'
+							result_text.append('=> Payload ' + p + ' caused an unknown error in parameter ' + k)
 					else:
 						passed = passed + 1
 						
@@ -42,12 +46,16 @@ class SQLiTest(RequestsTest):
 					if res.status_code != 200:
 						failed = failed + 1
 						if db_pattern.search(res.text,re.IGNORECASE):
-							print('=> Payload ' + p + ' caused a database error in paramater ' + k)
+							result = 'FAIL'
+							result_text.append('=> Payload ' + p + ' caused a database error in paramater ' + k)
+							sys.stderr.write('=> Payload ' + p + ' caused a database error in paramater ' + k + '\n')
 						else:
-							print('=> Payload ' + p + ' caused an unknown error in parameter ' + k)
+							result='ERROR'
+							result_text.append('=> Payload ' + p + ' caused an unknown error in parameter ' + k)
 					else:
 						passed = passed + 1
 				else:
 					if self.DEBUG: print("Endpoint method is not GET or POST")
+			self.report.add_test_result(url,self.config['method'],'sqli',k,result,result_text)
 		
 		print("=> " + str(passed) + "/" + str(passed+failed) + " passed/total")

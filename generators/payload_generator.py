@@ -31,9 +31,9 @@ class Payloads():
 	
 	#process_chars_dir(chars_dir,"/")
 	
-	def generate_payloads(type):
+	def generate_payloads(type,DEBUG=False):
 		#type can be xss, sqli, xml
-		print('Generating payload list for ' + type)
+		if DEBUG: print('Generating payload list for ' + type)
 		dir = os.getcwd() + "/exploit_chars" + "/" + type
 		s = string.ascii_lowercase + string.digits
 		

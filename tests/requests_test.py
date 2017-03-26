@@ -3,14 +3,16 @@ import requests
 import unittest
 
 from services.token_service import TokenService
+from services.report_service import Report
 
 class RequestsTest(unittest.TestCase):
 	
 	def __init__(self):
 		print("init")
 
-	def __init__(self,config,domain={},creds={},csrf={},payloads=[],DEBUG=False):
+	def __init__(self,config,report,domain={},creds={},csrf={},payloads=[],DEBUG=False):
 		self.client = requests.Session() # Each Test gets it's own session
+		self.report = report # This is where we put results
 		self.config = config
 		self.creds = creds
 		self.domain = domain
