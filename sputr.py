@@ -30,7 +30,7 @@ def main():
 	parser.add_argument('--conf_output',dest='conf_output',default='config.json',help='file to output config file to')
 	parser.add_argument('--output',dest='output',default='results.json',help='file for results output')
 	parser.add_argument('--testcsrf',action='store_true', help='test csrf from initial dev')
-	parser.add_argument('--verbose',dest='DEBUG', help='verbose messages')
+	parser.add_argument('--verbose',action='store_true',dest='DEBUG', help='verbose messages')
 	
 	args = parser.parse_args()
 	
@@ -80,6 +80,7 @@ def main():
 				#Do CSRF Test
 				if args.DEBUG: print('running csrf tests')
 				csrf_test = CSRFTest(ep,report,domain,creds,csrf,[],DEBUG=args.DEBUG)
+				csrf_test.test()
 			if tests[4] == '1':
 				if args.DEBUG: print('running access control tests')
 				ac = AccessControlTest(ep,report,domain,creds,csrf,[],DEBUG=args.DEBUG)

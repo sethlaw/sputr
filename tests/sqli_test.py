@@ -1,5 +1,6 @@
 import re
 import copy
+import sys
 from .requests_test import RequestsTest
 
 class SQLiTest(RequestsTest):
@@ -28,8 +29,8 @@ class SQLiTest(RequestsTest):
 						failed = failed + 1
 						if db_pattern.search(res.text,re.IGNORECASE):
 							result='FAIL'
-							result_text.append('=> Payload ' + p + ' caused a database error in paramater ' + k)
-							sys.stderr.write('=> Payload ' + p + ' caused a database error in paramater ' + k + '\n')
+							result_text.append('=> Payload ' + p + ' caused a database error in parameter ' + k)
+							sys.stderr.write('=> Payload ' + p + ' caused a database error in parameter ' + k + '\n')
 						else:
 							result='ERROR'
 							result_text.append('=> Payload ' + p + ' caused an unknown error in parameter ' + k)
@@ -47,8 +48,8 @@ class SQLiTest(RequestsTest):
 						failed = failed + 1
 						if db_pattern.search(res.text,re.IGNORECASE):
 							result = 'FAIL'
-							result_text.append('=> Payload ' + p + ' caused a database error in paramater ' + k)
-							sys.stderr.write('=> Payload ' + p + ' caused a database error in paramater ' + k + '\n')
+							result_text.append('=> Payload ' + p + ' caused a database error in parameter ' + k)
+							sys.stderr.write('=> Payload ' + p + ' caused a database error in parameter ' + k + '\n')
 						else:
 							result='ERROR'
 							result_text.append('=> Payload ' + p + ' caused an unknown error in parameter ' + k)

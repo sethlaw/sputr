@@ -1,0 +1,40 @@
+{
+	"token":{
+			"name":"session_cookie",
+			"value":""
+	},
+	"creds":{
+			"username":{
+				"name":"username",
+				"value":"seth"
+			},
+			"password":{
+				"name":"password",
+				"password":"soccerlover"
+			}
+	},
+	"csrf":{
+		"pattern":"\\w{32}",
+		"name":"csrfmiddlewaretoken",
+		"login_url":"http://localhost:8000/taskManager/login",
+		"auth_url":"http://localhost:8000/taskManager/dashboard"
+	},
+	"domain":{
+			"host":"localhost:8000",
+			"protocol":"http://",
+			"login_url":"http://localhost:8000/taskManager/login",
+			"auth_url":"http://localhost:8000/taskManager/dashboard"
+	},
+	"endpoints":[
+			{ "path":"/taskManager/2/edit_project/",
+                "method":"POST",
+				"auth":1,
+				"params":{
+					"title":"Default 2",
+					"text":"number 2",
+					"project_duedate":"1514028946",
+					"project_priority":"2"
+					},
+				"tests":"00011" }
+	]
+}
