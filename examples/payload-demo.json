@@ -16,14 +16,14 @@
 	"csrf":{
 		"pattern":"\\w{32}",
 		"name":"csrfmiddlewaretoken",
-		"login_url":"http://localhost:8000/taskManager/login",
-		"auth_url":"http://localhost:8000/taskManager/dashboard"
+		"login_url":"http://localhost:8000/taskManager/login/",
+		"auth_url":"http://localhost:8000/taskManager/project_list/"
 	},
 	"domain":{
 			"host":"localhost:8000",
 			"protocol":"http://",
-			"login_url":"http://localhost:8000/taskManager/login",
-			"auth_url":"http://localhost:8000/taskManager/dashboard"
+			"login_url":"http://localhost:8000/taskManager/login/",
+			"auth_url":"http://localhost:8000/taskManager/project_list/"
 	},
 	"endpoints":[
 			{ "path":"/taskManager/search/",

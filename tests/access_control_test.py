@@ -40,4 +40,4 @@ class AccessControlTest(RequestsTest):
 			result = 'ERROR'
 			result_text.append("=> no authentication required for access, bypassing access control test")
 		
-		self.report.add_test_result(url,self.config['method'],'sqli','none',result,result_text)
+		self.report.add_test_result(url,self.config['method'],'access_control','none',result,result_text)

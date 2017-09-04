@@ -68,7 +68,11 @@ class RequestsTest(unittest.TestCase):
 		res2 = self.post(self.domain['login_url'],data=data)
 		if self.DEBUG: print("Status: " + str(res2.status_code))
 		
-		res3 = self.get(self.domain['auth_url'])
+		if (res2.status_code != 200): 
+			print("Auth Failed")
+			if self.DEBUG: print("Status 500: " + str(res2.content))
+
+		res3 = self.get(self.domain['auth_url'],allow_redirects=False)
 		if self.DEBUG: print("Status: " + str(res3.status_code))
 		
 		return res2.status_code
