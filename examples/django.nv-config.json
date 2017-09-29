@@ -41,7 +41,7 @@
 					"password":"p"
 					},
 				"tests":"11001" },
-			{ "path":"/taskManager/2/task_edit/6/",
+			{ "path":"/taskManager/2/task_edit/6",
                 "testpath":"/taskManager/2/6/",
                 "method":"POST",
 				"auth":1,
@@ -61,6 +61,7 @@
 					},
 				"tests":"11011" },
 			{ "path":"/taskManager/profile/2/",
+				"idorpath":"/taskManager/profile/1/",
                 "method":"POST",
 				"auth":1,
 				"params":{
@@ -69,7 +70,7 @@
 					"email":"seth@tm.com",
 					"dob":"02/02/82"
 				},
-				"tests":"11011" },
+				"tests":"11111" },
 			{ "path":"/taskManager/profile_view/2/",
                 "method":"GET",
 				"auth":1,

@@ -16,6 +16,7 @@ from tests.csrf_test import CSRFTest
 from tests.xss_test import XSSTest
 from tests.sqli_test import SQLiTest
 from tests.access_control_test import AccessControlTest
+from tests.idor_test import IDORTest
 from generators.payload_generator import Payloads
 
 sys.dont_write_bytecode = True
@@ -76,6 +77,8 @@ def main():
 				xss.test()
 			if tests[2] == '1':
 				if args.DEBUG: print('running idor tests')
+				idor = IDORTest(ep,report,domain,creds,csrf,[],DEBUG=args.DEBUG)
+				idor.test()
 			if tests[3] == '1':
 				#Do CSRF Test
 				if args.DEBUG: print('running csrf tests')
