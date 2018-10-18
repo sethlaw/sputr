@@ -62,8 +62,8 @@ JSON Objects
 * domain: application connection information, including login_url for authenticaiton and auth_url for authentication test
 * endpoints: each of the different locations and tests to run
 * tests: inside endpoints, determines what tests to run on each endpoint (currently 5)
-** 10000 == SQL Injection (SQLi)
-** 01000 == Cross-Site Scripting (XSS)
-** 00100 == Insecure Direct Object Reference (IDOR)
-** 00010 == Cross-Site Request Forgery (CSRF)
-** 00001 == Missing Function Level Access Control (MFLAC)
+  * 10000 == SQL Injection (SQLi)
+  * 01000 == Cross-Site Scripting (XSS)
+  * 00100 == Insecure Direct Object Reference (IDOR)
+  * 00010 == Cross-Site Request Forgery (CSRF)
+  * 00001 == Missing Function Level Access Control (MFLAC)

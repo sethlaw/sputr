@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #####################################
 # generate_payloads.py
 # created: 2017-01-20
