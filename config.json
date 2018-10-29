@@ -1,55 +1,52 @@
 {
-
-	"token":{
-			"name":"session_cookie",
-			"value":""
-			},
-	"creds":{
-			"username":{
-				"name":"LoginForm-email",
-				"value":"asdasda%40example.com"
-			},
-			"password":{
-				"name":"LoginForm-password",
-				"password":""
-			}
-	},
-	"csrf":{
-		"pattern":"\\w{10}#{2}\\w{40}",
-		"name":"LoginForm-csrf_token",
-		"login_url":"http://localhost:1234/login",
-		"auth_url":"http://localhost:1234/api/login"
-	},
-	"domain":{
-			"host":"localhost:1234",
-			"protocol":"http://"
-			},
-	"endpoints":[{
-				"path":"/api/v1/dash",
-				"method":"GET",
-				"auth":0,
-				"params":{
-					"name1":"value1",
-					"name2":"value2"
-				},
-				"tests":"0000"
-				},
-
-				{
-				"path":"/api/v1/login",
-				"method":"POST",
-				"auth":1,
-				"params":"",
-				"tests":"0000"
-				},
-				{
-				"path":"",
-				"method":"POST",
-				"params":{
-					
-				},
-				"auth":1,
-				"tests":"0001"
-				}]
-
+    "token": {
+        "name": "session_cookie",
+        "value": ""
+    },
+    "creds": {
+        "username": {
+            "name": "LoginForm-email",
+            "value": "asdasda%40example.com"
+        },
+        "password": {
+            "name": "LoginForm-password",
+            "password": ""
+        }
+    },
+    "csrf": {
+        "pattern": "\\w{10}#{2}\\w{40}",
+        "name": "LoginForm-csrf_token",
+        "login_url": "http://localhost:1234/login",
+        "auth_url": "http://localhost:1234/api/login"
+    },
+    "domain": {
+        "host": "localhost:1234",
+        "protocol": "http://"
+    },
+    "endpoints": [
+        {
+            "path": "/api/v1/dash",
+            "method": "GET",
+            "auth": 0,
+            "params": {
+                "name1": "value1",
+                "name2": "value2"
+            },
+            "tests": "0000"
+        },
+        {
+            "path": "/api/v1/login",
+            "method": "POST",
+            "auth": 1,
+            "params": "",
+            "tests": "0000"
+        },
+        {
+            "path": "",
+            "method": "POST",
+            "params": {},
+            "auth": 1,
+            "tests": "0001"
+        }
+    ]
 }
