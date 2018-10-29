@@ -171,4 +171,4 @@ def parse_config(f):
 
 
 if __name__ == '__main__':
-    exit(main())
+    sys.exit(main())
