@@ -1,7 +1,5 @@
+class CSRFPayloadGenerator:
 
-class CSRFPayloadGenerator():
-
-	def create_payload(self,name,value):
-		return "<input type=\"hidden\"  name="+"\""+name+"\""+" value="+"\""+value+"\""+" />\n"
-
-	
+    @classmethod
+    def create_payload(cls, name, value):
+        return "<input type=\"hidden\"  name=" + "\"" + name + "\"" + " value=" + "\"" + value + "\"" + " />\n"
