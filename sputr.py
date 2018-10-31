@@ -83,7 +83,7 @@ def main():
                     ('access control', None, AccessControlTest),
                 ]
                 for i, (name, payload, runner) in enumerate(test_runner_configs, 1):
-                    if tests[i] != '1':  # test not activated
+                    if tests[i-1] != '1':  # test not activated
                         continue
                     logger.debug('running %s tests', name)
                     payloads = []
