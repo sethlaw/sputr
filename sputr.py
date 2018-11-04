@@ -82,8 +82,8 @@ def main():
                     ('csrf', None, CSRFTest),
                     ('access control', None, AccessControlTest),
                 ]
-                for i, (name, payload, runner) in enumerate(test_runner_configs, 1):
-                    if tests[i-1] != '1':  # test not activated
+                for i, (name, payload, runner) in enumerate(test_runner_configs):
+                    if tests[i] != '1':  # test not activated
                         continue
                     logger.debug('running %s tests', name)
                     payloads = []
