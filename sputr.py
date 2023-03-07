@@ -9,14 +9,29 @@ import logging
 import sys
 import argparse
 import requests
+import requests_raw
+import base64
 import utils
+import re
 from services.report_service import Report
 from tests.csrf_test import CSRFTest
 from tests.xss_test import XSSTest
 from tests.sqli_test import SQLiTest
 from tests.access_control_test import AccessControlTest
 from tests.idor_test import IDORTest
+from tests.raw_sqli_test import RawSQLiTest
 from generators.payload_generator import Payloads
+
+### Required test support definitions
+### Will need to pull this out to a configuration file eventually
+sputr_tests = {
+    'sqli': ('sqli', 'injection/sql', SQLiTest),
+    'xss': ('xss', 'xss', XSSTest),
+    'idor': ('idor', None, IDORTest),
+    'csrf': ('csrf', None, CSRFTest),
+    'bac': ('access control', None, AccessControlTest),
+    'raw-sqli': ('sqli', 'injection/sql', RawSQLiTest)
+}
 
 
 sys.dont_write_bytecode = True
@@ -37,12 +52,63 @@ def main():
                         help='file to output config file to')
     parser.add_argument('--output', dest='output', default='results.json', help='file for results output')
     parser.add_argument('--testcsrf', action='store_true', help='test csrf from initial dev')
+    parser.add_argument('--raw', action='store_true', help='test a raw request')
     parser.add_argument('--verbose', action='store_true', dest='debug', help='verbose messages')
 
     args = parser.parse_args()
 
     if args.debug:
         logger.setLevel(logging.DEBUG)
+    
+    # Patch to SPUTR to allow for raw request tests
+    if args.raw:
+        c, error = parse_config(args.config)
+        if error:
+            return error
+        try:
+            # sputr_re = re.compile("@@(.*?)##")
+            for r in c['requests']:
+                try:
+                    tests = r['tests']
+                except (KeyError, TypeError):
+                    logger.warning('No tests found for request "%s". Skipping.', r.get('url', 'unknown'))
+                    continue
+                url = r['url']
+                report = Report(url)
+                # encoding = c['encoding']
+                # Only allows for base64-encoded requests
+                request = base64.b64decode(r['request'])
+                request = request.decode('ascii')
+                for t in r['tests']: 
+                    (name, payload, runner) = sputr_tests[t]
+                    logger.debug('running %s tests', name)
+                    payloads = []
+                    if payload:
+                        payloads = Payloads.generate_payloads(payload, debug=args.debug)
+                    test_obj = runner(r, report, url, request, payloads)
+
+                    test_obj.test()
+
+            #with open(args.output, 'w') as f:
+            #   json.dump(report.report, f, indent=4)
+
+                #print(request)
+                #for location in re.finditer(sputr_re,request):
+                    #print(location.group(0))
+                    #req = re.sub(location.group(0),'TEST',request)
+                    #req = re.sub("@@|##","",req)
+                    #print(req)
+                    # request = re.sub(location,'TEST',request)
+                    # request = re.sub("@@|##","",request)
+                    # print(request.decode('ascii'))
+                    #res = RawRequestsTest.rawrequest(url=url,request=req)
+                    #print(res.headers)
+        except KeyError as e:
+            logger.error('Key "%s" not found in configuration.', e)
+            return utils.KEY_MISSING
+
+        # res = requests_raw.raw(url=url,data=request)
+        return 0
 
     if args.testcsrf or args.test:
         c, error = parse_config(args.config)
@@ -68,7 +134,7 @@ def main():
                 if res1.status_code == res2.status_code:
                     logger.warning('TEST FAILED')
         else:
-            report = Report(domain)
+            report = Report(url)
             for ep in endpoints:
                 try:
                     tests = list(ep['tests'])
@@ -92,8 +158,9 @@ def main():
                     test_obj = runner(ep, report, domain, creds, csrf, payloads, DEBUG=args.debug)
                     test_obj.test()
 
-            with open(args.output, 'w') as f:
-                json.dump(report.report, f, indent=4)
+            print(report.decode('utf-8'))
+            # with open(args.output, 'w') as f:
+            #    json.dump(report.report, f, indent=4)
     elif args.generate:
         print('generating config from {0} as a {1} application to {2}'.format(args.app_dir, args.apptype, args.output))
         generate_config(args.appdir, args.apptype, args.conf_output)
