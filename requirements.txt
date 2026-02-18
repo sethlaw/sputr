@@ -2,3 +2,4 @@ requests
 beautifulsoup4
 lxml
 requests-raw
+playwright

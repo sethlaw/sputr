@@ -1,0 +1,4 @@
+onerror=
+onload=
+onfocus=
+onmouseover=
